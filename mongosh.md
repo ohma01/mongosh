@@ -35,7 +35,7 @@ db.dropDatabase()
 ## 7. To inserting one document at a time 
 
 ```bash
-db.collection_name.insertone({document})
+db.collection_name.insertOne({document})
 ```
 ## 8. To insert many documents at a same time
 
@@ -161,3 +161,4 @@ db.collection_name.find({ attribute: { $exists : <boolean> } })
 ```bash
 db.collection_name.find({attribute :{ $regex: /pattern/, $options: '<options>' }})
 ```
+

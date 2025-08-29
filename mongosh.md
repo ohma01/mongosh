@@ -161,4 +161,48 @@ db.collection_name.find({ attribute: { $exists : <boolean> } })
 ```bash
 db.collection_name.find({attribute :{ $regex: /pattern/, $options: '<options>' }})
 ```
+# Updation Operation
+
+## 30. To update single document matching a condition 
+
+```bash
+db.collection_name.updateOne({attribute : "value"}, {$set : {attribute : "newValue" }})
+                  or
+db.collection_name.updateOne({attribute : "value"}, {$set : {attribute : "newValue" }},{upsert : true})
+```
+## 31. To update multiple documents matching a condition
+
+```bash
+db.collection_name.updateMany({attribute : "value"}, {$set : {attribute : "newValue" }})
+                  or
+db.collection_name.updateMany({attribute : "value"}, {$set : {attribute : "newValue" }},{upsert : true})
+```
+
+## 32. To increment a field in documents matching a condition
+
+```bash
+db.collection_name.updateOne/updateMany({attribute : "value"}, {$inc : {numericFeild : <number>  }})
+```
+## 33. To multiply a field in documents matching a condition
+
+```bash
+db.collection_name.updateOne/updateMany({attribute : "value"}, {$mul : {numericFeild : <number>  }})
+```
+## 34. To rename a field/fields in documents matching a condition
+
+```bash
+db.collection_name.updateOne/updateMany({attribute : "value"}, { $rename: { <oldFieldName>: <newFieldName>, ... } }})
+```
+## 35. To set the value of field/fields  in documents matching a condition
+
+```bash
+db.collection_name.updateOne/updateMany({attribute : "value"}, { $set: { <field1>: <value1>, <field2>: <value2>, ... } })
+```
+## 36. To remove a field/fields  in documents matching a condition
+
+```bash
+db.collection_name.updateOne/updateMany({attribute : "value"}, { $unset: { <field1>: "", <field2>: "", ... } })
+```
+
+
 

@@ -150,7 +150,7 @@ db.collection_name.find({ attribute: { $size: number }})
 ```bash
 db.collection name.find({ attribute: {$elemMatch : {<query1>, <query2>,... } }})
 ```
-## 28. To retrieve documents which contains the feild, including documents shere the feild value is null. if it set false then query return only documents that do not contain the feild 
+## 28. To retrieve documents which contains the feild, including documents share the feild value is null. if it set false then query return only documents that do not contain the feild 
 
 ```bash
 db.collection_name.find({ attribute: { $exists : <boolean> } })
@@ -203,6 +203,206 @@ db.collection_name.updateOne/updateMany({attribute : "value"}, { $set: { <field1
 ```bash
 db.collection_name.updateOne/updateMany({attribute : "value"}, { $unset: { <field1>: "", <field2>: "", ... } })
 ```
+# Deletion Operation
+
+## 37. To delete a first (single) document matching a condition
+
+```bash
+db.collection_name.deleteOne({ attribute: "value" })
+```
+## 38. To delete a multiple document matching a condition
+
+```bash
+db.collection_name.deleteMany({ attribute: "value" })
+```
+
+# Single Purpose Aggregation 
+
+## 39. To count the number of documents matching a condition
+
+```bash
+db.collection_name.count({ attribute: "value" })
+```
+## 40. To get arary of distinct values of a field matching a condition
+
+```bash
+db.collection_name.distinct("<field_name>", { attribute: "value" })
+```
+
+# Aggregation Pipeline Operators
+
+## 41. To include or exclude specific fields from the documents
+
+The `$project` stage is used in an aggregation pipeline to **reshape documents** by including, excluding, or adding new computed fields.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $project: {
+      field1: 1,   # include
+      field2: 1,   # include
+      field3: 0    # exclude
+    }
+  }
+])
+```
+## 42. To group documents by a specified field and perform aggregations
+
+The `$group` stage is used in an aggregation pipeline to **group documents** by an expression and apply accumulator operations like `$sum`, `$avg`, `$max`, `$min`, `$push`, etc.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $group: {
+      _id: "$<field>",      # group by this field
+      totalCount: { $sum: 1 },
+      averageValue: { $avg: "$<numeric_field>" }
+    }
+  }
+])
+```
+
+## 43. To filter documents in the aggregation pipeline
+
+The `$match` stage is used in an aggregation pipeline to **filter documents** based on a given condition (similar to `find()` query filter).
+
+```bash
+db.collection_name.aggregate([
+  {
+    $match: {
+      <field>: <value>
+    }
+  }
+])
+```
+
+## 44. To sort documents in the aggregation pipeline
+
+The `$sort` stage is used in an aggregation pipeline to **order documents** by one or more fields, in ascending (`1`) or descending (`-1`) order.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $sort: {
+      <field1>: 1,   # ascending
+      <field2>: -1   # descending
+    }
+  }
+])
+```
+## 45. To limit the number of documents in the aggregation pipeline
+
+The `$limit` stage is used in an aggregation pipeline to **restrict the number of documents** passed to the next stage.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $limit: <number>
+  }
+])
+```
+
+## 46. To write the aggregation results to a collection
+
+The `$out` stage is used in an aggregation pipeline to **write the output documents** to a specified collection.  
+⚠️ It replaces the entire target collection with the new results.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $out: "<target_collection>"
+  }
+])
+```
+
+## 47. To skip a specified number of documents in the aggregation pipeline
+
+The `$skip` stage is used in an aggregation pipeline to **bypass a given number of documents** before passing the rest to the next stage.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $skip: <number>
+  }
+])
+```
+## 48. To count the number of documents in the aggregation pipeline
+
+The `$count` stage is used in an aggregation pipeline to **return the number of documents** that pass through the pipeline.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $count: "<fieldName>"
+  }
+])
+```
+## 49. To deconstruct an array field into multiple documents
+
+The `$unwind` stage is used in an aggregation pipeline to **split array elements** into separate documents, creating one document per array element.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $unwind: "$<arrayField>"
+  }
+])
+```
+## 50. To get the minimum value of a field
+
+The `$min` accumulator is used in an aggregation pipeline (usually with `$group`) to **return the smallest value** for a given field.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $group: {
+      _id: "$<groupField>",
+      minValue: { $min: "$<numericField>" }
+    }
+  }
+])
+```
+
+## 50. To get the maximum value of a field
+
+The `$max` accumulator is used in an aggregation pipeline (usually with `$group`) to **return the largest value** for a given field.
+
+```bash
+db.collection_name.aggregate([
+  {
+    $group: {
+      _id: "$<groupField>",
+      maxValue: { $max: "$<numericField>" }
+    }
+  }
+])
+```
+
+## 52. To query documents from a collection
+
+The `find()` method is used to **retrieve documents** from a collection based on a filter condition.
+
+```bash
+db.collection_name.find({ <field>: <value> })
+```
+
+## 53. To skip documents when querying
+
+The `skip()` method is used with `find()` to **bypass a specified number of documents** in the query result.
+
+```bash
+db.collection_name.find().skip(<number>)
+```
+
+## 54. To limit the number of documents when querying
+
+The `limit()` method is used with `find()` to **restrict the number of documents** returned.
+
+```bash
+db.collection_name.find().limit(<number>)
+```
+
+
 
 
 
